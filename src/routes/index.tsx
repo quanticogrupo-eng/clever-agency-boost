@@ -44,7 +44,7 @@ function Landing() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-[image:var(--gradient-hero)]">
         <div className="absolute inset-0 -z-10 opacity-40 [background:radial-gradient(60%_60%_at_50%_0%,color-mix(in_oklab,var(--primary-glow)_30%,transparent)_0%,transparent_70%)]" />
-        <div className="mx-auto max-w-5xl px-4 py-12 text-center md:py-16">
+        <div className="mx-auto max-w-5xl px-4 pt-10 pb-8 text-center md:pt-14 md:pb-10">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/60 px-4 py-1.5 text-xs font-medium text-primary backdrop-blur">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Para donos de agência que querem escalar
