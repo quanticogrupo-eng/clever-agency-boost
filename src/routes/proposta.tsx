@@ -65,7 +65,7 @@ function Editable({
   id: string;
   initial: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   multiline?: boolean;
 }) {
   const [val, save] = useEditable(id, initial);
