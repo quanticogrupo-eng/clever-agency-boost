@@ -45,7 +45,7 @@ function Landing() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-[image:var(--gradient-hero)]">
         <div className="absolute inset-0 -z-10 opacity-40 [background:radial-gradient(60%_60%_at_50%_0%,color-mix(in_oklab,var(--primary-glow)_30%,transparent)_0%,transparent_70%)]" />
-        <div className="mx-auto max-w-5xl px-4 py-20 text-center md:py-28">
+        <div className="mx-auto max-w-5xl px-4 py-12 text-center md:py-16">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/60 px-4 py-1.5 text-xs font-medium text-primary backdrop-blur">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Para donos de agência que querem escalar
@@ -70,7 +70,7 @@ function Landing() {
       </section>
 
       {/* PROBLEMA */}
-      <section className="bg-background py-20">
+      <section className="bg-background py-12 md:py-14">
         <div className="mx-auto max-w-5xl px-4">
           <div className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">O Problema</span>
@@ -101,7 +101,7 @@ function Landing() {
       </section>
 
       {/* AGITAÇÃO */}
-      <section className="relative overflow-hidden bg-secondary py-20">
+      <section className="relative overflow-hidden bg-secondary py-12 md:py-14">
         <div className="mx-auto max-w-5xl px-4">
           <div className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Enquanto isso…</span>
@@ -131,7 +131,7 @@ function Landing() {
       </section>
 
       {/* PARA QUEM É / NÃO É */}
-      <section className="bg-background py-20">
+      <section className="bg-background py-12 md:py-14">
         <div className="mx-auto max-w-5xl px-4">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl border-2 border-primary/30 bg-card p-8 shadow-[var(--shadow-soft)]">
@@ -170,7 +170,7 @@ function Landing() {
       </section>
 
       {/* FECHAMENTO */}
-      <section className="relative overflow-hidden bg-[image:var(--gradient-primary)] py-20 text-primary-foreground">
+      <section className="relative overflow-hidden bg-[image:var(--gradient-primary)] py-12 md:py-16 text-primary-foreground">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-3xl font-bold leading-tight tracking-tight md:text-5xl">
             Você pode continuar operando no manual…
@@ -192,11 +192,6 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-border bg-background py-8">
-        <div className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Automação & IA — Todos os direitos reservados.
-        </div>
-      </footer>
 
       <LeadDialog open={open} onOpenChange={setOpen} />
     </div>
