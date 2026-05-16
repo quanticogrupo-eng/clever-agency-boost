@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LeadDialog } from "@/components/LeadDialog";
 import { Check, X, ArrowRight, Sparkles, TrendingUp, Users, Zap, Clock, AlertTriangle } from "lucide-react";
+import fymLogo from "@/assets/fym-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,11 +31,9 @@ function Landing() {
       {/* NAV */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <span className="text-base font-semibold tracking-tight">Automação & IA</span>
+          <div className="flex items-center gap-2.5">
+            <img src={fymLogo} alt="FYM Group" className="h-10 w-10 rounded-lg object-cover" />
+            <span className="text-base font-semibold tracking-tight">FYM Group</span>
           </div>
           <Button variant="hero" size="sm" onClick={() => setOpen(true)}>
             Consultoria gratuita
@@ -55,9 +54,8 @@ function Landing() {
             <span className="text-primary">90 dias</span> com automação e IA
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground md:text-lg">
-            Sem contratar mais gente. Implemento automações com IA na operação da sua agência para
-            reduzir tarefas manuais, aumentar produtividade, aumentar lucro e criar vantagem
-            competitiva no mercado.
+            Implemento automações com IA na operação da sua agência para reduzir tarefas manuais,
+            aumentar produtividade, aumentar lucro e criar vantagem competitiva no mercado.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3">
             {cta("Quero uma consultoria gratuita")}
