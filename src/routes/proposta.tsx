@@ -64,7 +64,7 @@ function Editable({
 }: {
   id: string;
   initial: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   className?: string;
   multiline?: boolean;
 }) {
