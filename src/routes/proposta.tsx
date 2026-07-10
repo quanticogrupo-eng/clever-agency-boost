@@ -5,24 +5,24 @@ import {
   ChevronRight,
   Maximize2,
   RotateCcw,
-  Target,
-  BarChart3,
-  Settings,
-  Users,
-  Trophy,
-  ShieldCheck,
-  Wallet,
-  Check,
+  Compass,
+  BadgeCheck,
+  Megaphone,
+  Handshake,
+  TrendingUp,
+  KeyRound,
+  ClipboardList,
+  Presentation,
+  PenLine,
+  Clapperboard,
+  Rocket,
+  ArrowRight,
 } from "lucide-react";
-import fymLogo from "@/assets/fym-logo.png";
-import planilha from "@/assets/planilha-controle.png";
-import felipe from "@/assets/felipe-torres.png";
-import pedro from "@/assets/pedro-moro.png";
 
 export const Route = createFileRoute("/proposta")({
   head: () => ({
     meta: [
-      { title: "Proposta Comercial | FYM Group" },
+      { title: "Proposta Comercial | Frota Performance" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -31,11 +31,14 @@ export const Route = createFileRoute("/proposta")({
 
 /* ------------------------ Editable primitives ------------------------ */
 
+const STORE = "frota-proposta:";
+const ORANGE = "#F26A21";
+
 function useEditable(id: string, initial: string) {
   const [val, setVal] = useState(initial);
   useEffect(() => {
     try {
-      const v = localStorage.getItem("fym-proposta:" + id);
+      const v = localStorage.getItem(STORE + id);
       if (v !== null) setVal(v);
     } catch {
       // ignore
@@ -45,7 +48,7 @@ function useEditable(id: string, initial: string) {
     (next: string) => {
       setVal(next);
       try {
-        localStorage.setItem("fym-proposta:" + id, next);
+        localStorage.setItem(STORE + id, next);
       } catch {
         // ignore
       }
@@ -90,7 +93,7 @@ function Editable({
         }
       }}
       className={
-        "outline-none focus:ring-2 focus:ring-primary/40 rounded-sm px-0.5 -mx-0.5 " +
+        "outline-none focus:ring-2 focus:ring-[#F26A21]/40 rounded-sm px-0.5 -mx-0.5 " +
         className
       }
     >
@@ -105,69 +108,56 @@ function Slide({
   index,
   total,
   children,
-  bg = "white",
 }: {
   index: number;
   total: number;
   children: React.ReactNode;
-  bg?: "white" | "soft" | "dark";
 }) {
-  const bgClass =
-    bg === "dark"
-      ? "bg-[linear-gradient(135deg,#0F2A1C,#14693A)] text-white"
-      : bg === "soft"
-        ? "bg-[linear-gradient(180deg,#F2FBF5,#FFFFFF)] text-foreground"
-        : "bg-white text-foreground";
   return (
-    <section
-      className={`relative w-full h-full ${bgClass} overflow-hidden flex flex-col`}
-    >
+    <section className="relative w-full h-full bg-white text-neutral-900 overflow-hidden flex flex-col">
       {/* header */}
       <header className="flex items-center justify-between px-10 md:px-16 pt-8">
-        <div className="flex items-center gap-3">
-          <img src={fymLogo} alt="FYM Group" className="h-9 w-auto" />
+        <div className="flex items-center gap-2">
           <span
-            className={`font-semibold tracking-tight ${bg === "dark" ? "text-white" : "text-foreground"}`}
-          >
-            FYM Group
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: ORANGE }}
+          />
+          <span className="text-sm font-bold tracking-tight text-neutral-900">
+            Frota Performance
           </span>
         </div>
-        <span
-          className={`text-xs font-medium tabular-nums ${bg === "dark" ? "text-white/70" : "text-muted-foreground"}`}
-        >
+        <span className="text-xs font-medium tabular-nums text-neutral-500">
           {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
       </header>
 
+      {/* accent bar */}
+      <div
+        className="mx-10 md:mx-16 mt-4 h-[3px] w-16 rounded-full"
+        style={{ backgroundColor: ORANGE }}
+      />
+
       {/* body */}
-      <div className="flex-1 px-10 md:px-20 py-8 md:py-10 flex flex-col">
+      <div className="flex-1 px-10 md:px-16 py-6 md:py-8 flex flex-col">
         {children}
       </div>
 
       {/* footer */}
-      <footer
-        className={`px-10 md:px-16 pb-6 text-[11px] tracking-wider uppercase ${bg === "dark" ? "text-white/50" : "text-muted-foreground"}`}
-      >
-        Proposta Comercial · Programa 90D Ops IA
+      <footer className="px-10 md:px-16 pb-6 text-[11px] tracking-[0.2em] uppercase text-neutral-400 flex items-center justify-between">
+        <span>Proposta Comercial · Clínicas de Harmonização Facial</span>
+        <span>Frota Performance</span>
       </footer>
     </section>
   );
 }
 
-function Kicker({
-  children,
-  dark = false,
-}: {
-  children: React.ReactNode;
-  dark?: boolean;
-}) {
+function Kicker({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] uppercase ${dark ? "text-primary-glow" : "text-primary"}`}
+      className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.24em] uppercase"
+      style={{ color: ORANGE }}
     >
-      <span
-        className={`h-px w-8 ${dark ? "bg-primary-glow" : "bg-primary"}`}
-      />
+      <span className="h-px w-8" style={{ backgroundColor: ORANGE }} />
       {children}
     </div>
   );
@@ -175,528 +165,542 @@ function Kicker({
 
 /* --------------------------------- Slides --------------------------------- */
 
-const TOTAL = 8;
+const TOTAL = 9;
 
+/* 1 — Capa */
 function Slide1() {
   return (
-    <Slide index={1} total={TOTAL} bg="dark">
+    <Slide index={1} total={TOTAL}>
       <div className="flex-1 flex flex-col justify-center max-w-5xl">
-        <Kicker dark>Proposta Comercial</Kicker>
+        <Kicker>Proposta Comercial</Kicker>
         <Editable
           id="s1-title"
           as="h1"
-          className="mt-5 text-5xl md:text-7xl font-bold tracking-tight leading-[1.05]"
-          initial="Programa 90D Ops IA — Produtividade em 90 Dias"
+          className="mt-6 text-6xl md:text-8xl font-black tracking-tight leading-[0.95]"
+          initial="Frota Performance"
+        />
+        <div
+          className="mt-6 h-1 w-24 rounded-full"
+          style={{ backgroundColor: ORANGE }}
         />
         <Editable
           id="s1-sub"
           as="p"
           multiline
-          className="mt-7 text-xl md:text-2xl text-white/85 leading-relaxed max-w-4xl"
-          initial="Aumente de 20% a 40% a produtividade da sua operação em até 90 dias com automação e IA — sem contratar mais gente."
+          className="mt-6 text-2xl md:text-3xl text-neutral-700 leading-snug max-w-4xl font-light"
+          initial="Posicionamento, Tráfego e Crescimento para Clínicas de Harmonização Facial."
         />
-        <div className="mt-10 flex items-center gap-3 text-sm text-white/70">
-          <span className="h-2 w-2 rounded-full bg-primary-glow" />
-          <Editable id="s1-meta" initial="FYM Group · Automação & IA" />
-        </div>
+        <Editable
+          id="s1-foot"
+          as="p"
+          className="mt-12 text-sm text-neutral-500 tracking-wide"
+          initial="Proposta comercial preparada para [Nome da Clínica]"
+        />
       </div>
     </Slide>
   );
 }
 
+/* 2 — Quem somos */
 function Slide2() {
   return (
-    <Slide index={2} total={TOTAL} bg="soft">
+    <Slide index={2} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Objetivo</Kicker>
+        <Kicker>Quem somos</Kicker>
         <Editable
           id="s2-title"
           as="h2"
-          className="mt-4 text-4xl md:text-6xl font-bold tracking-tight leading-tight"
-          initial="Qual o principal objetivo do projeto?"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="Especialistas em um único mercado."
         />
       </div>
 
-      <div className="mt-10 flex-1 flex items-center">
-        <div className="relative max-w-5xl">
-          <div className="absolute -left-4 top-0 bottom-0 w-1.5 rounded-full bg-primary" />
-          <Editable
-            id="s2-quote"
-            as="p"
-            multiline
-            className="pl-8 text-2xl md:text-3xl leading-relaxed text-foreground/90 font-medium"
-            initial="Aumentar de 20% a 40% a produtividade da sua agência em até 90 dias e colocar mais lucro no bolso da sua empresa com automação e IA aplicada ao dia a dia."
-          />
-        </div>
-      </div>
+      <div className="mt-10 flex-1 grid md:grid-cols-[1fr_auto] gap-10 items-start">
+        <Editable
+          id="s2-body"
+          as="p"
+          multiline
+          className="text-xl md:text-2xl leading-relaxed text-neutral-700 max-w-3xl font-light"
+          initial={
+            "A Frota Performance é uma assessoria de marketing e vendas especializada exclusivamente em clínicas de harmonização facial. Não atendemos dezenas de nichos ao mesmo tempo — cada estratégia, cada criativo, cada campanha é pensada só para esse mercado, incluindo as regras específicas de publicidade do CFM e do CFO.\n\nNosso trabalho começa onde o da maioria termina: não vendemos tráfego, vendemos crescimento real de faturamento — porque só ganhamos de verdade quando sua clínica também ganha."
+          }
+        />
 
-      <div className="mt-8 grid grid-cols-3 gap-6 max-w-4xl">
-        {[
-          { k: "+20% a 40%", v: "Produtividade" },
-          { k: "90 dias", v: "Prazo de entrega" },
-          { k: "Mais lucro", v: "Sem aumentar equipe" },
-        ].map((it) => (
-          <div
-            key={it.k}
-            className="rounded-2xl bg-white border border-border p-5 shadow-[0_10px_30px_-15px_rgba(31,157,85,0.25)]"
-          >
-            <div className="text-2xl font-bold text-primary tracking-tight">
-              {it.k}
+        <div className="flex flex-col gap-4 md:pl-6 md:border-l md:border-neutral-200 min-w-[220px]">
+          {[
+            { k: "1 nicho", v: "Harmonização facial" },
+            { k: "CFM + CFO", v: "Anúncios em conformidade" },
+            { k: "Parceria", v: "Ganhamos quando você ganha" },
+          ].map((it) => (
+            <div key={it.k}>
+              <div
+                className="text-3xl font-black tracking-tight"
+                style={{ color: ORANGE }}
+              >
+                {it.k}
+              </div>
+              <div className="text-sm text-neutral-500 mt-1">{it.v}</div>
             </div>
-            <div className="text-sm text-muted-foreground mt-1">{it.v}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Slide>
   );
 }
 
+/* 3 — Objetivo */
 function Slide3() {
   return (
-    <Slide index={3} total={TOTAL} bg="white">
+    <Slide index={3} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Mensuração</Kicker>
+        <Kicker>Nosso objetivo com você</Kicker>
         <Editable
           id="s3-title"
           as="h2"
-          className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-          initial="Como vamos medir o nosso sucesso?"
-        />
-        <Editable
-          id="s3-sub"
-          as="p"
-          multiline
-          className="mt-3 text-lg text-muted-foreground max-w-3xl"
-          initial="Através de uma planilha de controle de tempo economizado e de lucro:"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="Referência regional. Agenda previsível."
         />
       </div>
 
-      <div className="mt-6 flex-1 flex flex-col items-center justify-center">
-        <div className="w-full max-w-5xl rounded-2xl border border-border bg-white shadow-[0_20px_50px_-20px_rgba(31,157,85,0.35)] overflow-hidden">
-          <img
-            src={planilha}
-            alt="Planilha de controle de tempo economizado e lucro"
-            className="w-full h-auto block"
+      <div className="mt-12 flex-1 flex items-center">
+        <div className="relative max-w-4xl">
+          <div
+            className="absolute -left-5 top-1 bottom-1 w-1.5 rounded-full"
+            style={{ backgroundColor: ORANGE }}
+          />
+          <Editable
+            id="s3-body"
+            as="p"
+            multiline
+            className="pl-8 text-2xl md:text-[26px] leading-relaxed text-neutral-800 font-light"
+            initial={
+              "Nosso objetivo não é gerar leads ou rodar campanha. É transformar sua clínica em uma referência regional em harmonização facial, com agenda previsível, pacientes qualificados todos os meses e crescimento sustentável que não depende só de indicação.\n\nNão trabalhamos pra entregar número bonito de relatório. Trabalhamos pra você faturar mais — porque é assim que nós também crescemos."
+            }
           />
         </div>
-        <Editable
-          id="s3-foot"
-          as="p"
-          multiline
-          className="mt-5 text-base md:text-lg text-foreground/80 text-center max-w-3xl"
-          initial="Assim que atingirmos o aumento de produtividade de 20% a 40%, concluiremos nosso objetivo."
-        />
       </div>
     </Slide>
   );
 }
 
+/* 4 — Diferencial */
 function Slide4() {
-  const phases = [
-    {
-      icon: Target,
-      tag: "30 dias",
-      title: "Playbook",
-      desc: "Playbook, métricas de tempo, dashboard e roadmap de automação.",
-    },
-    {
-      icon: Settings,
-      tag: "60 dias",
-      title: "Implementação",
-      desc: "3–5 automações ativas, documentações e vídeos de uso.",
-    },
-    {
-      icon: BarChart3,
-      tag: "90 dias",
-      title: "Padronizar e Escalar",
-      desc: "Ajustes, melhorias, novas automações menores e reunião mensal para apresentar o resultado.",
-    },
-  ];
   return (
-    <Slide index={4} total={TOTAL} bg="soft">
+    <Slide index={4} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Método PIPE</Kicker>
+        <Kicker>Nosso diferencial</Kicker>
         <Editable
           id="s4-title"
           as="h2"
-          className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-          initial="Como vamos automatizar a sua agência?"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="O que nos torna diferentes."
         />
       </div>
 
-      <div className="mt-10 flex-1 grid md:grid-cols-3 gap-6">
-        {phases.map((p, i) => (
-          <div
-            key={p.title}
-            className="rounded-2xl bg-white border border-border p-7 flex flex-col shadow-[0_10px_30px_-15px_rgba(31,157,85,0.25)]"
-          >
-            <div className="flex items-center justify-between">
-              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                <p.icon className="h-6 w-6" />
-              </div>
-              <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                {p.tag}
-              </span>
-            </div>
-            <Editable
-              id={`s4-t-${i}`}
-              as="h3"
-              className="mt-5 text-2xl font-bold tracking-tight"
-              initial={p.title}
-            />
-            <Editable
-              id={`s4-d-${i}`}
-              as="p"
-              multiline
-              className="mt-2 text-base text-muted-foreground leading-relaxed"
-              initial={p.desc}
-            />
+      <div className="mt-10 flex-1 grid md:grid-cols-2 gap-10">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-widest text-neutral-400">
+            A maioria das agências
           </div>
-        ))}
+          <Editable
+            id="s4-generic"
+            as="p"
+            multiline
+            className="mt-3 text-lg md:text-xl leading-relaxed text-neutral-600 font-light"
+            initial={
+              "Atende dezenas de nichos ao mesmo tempo — de dentista a loja de roupa, de advogado a estética. Resultado: criativo genérico, estratégia genérica, resultado genérico."
+            }
+          />
+        </div>
+
+        <div className="md:pl-8 md:border-l-2" style={{ borderColor: ORANGE }}>
+          <div
+            className="text-xs font-bold uppercase tracking-widest"
+            style={{ color: ORANGE }}
+          >
+            Frota Performance
+          </div>
+          <Editable
+            id="s4-us"
+            as="p"
+            multiline
+            className="mt-3 text-lg md:text-xl leading-relaxed text-neutral-800"
+            initial={
+              "Atendemos só clínicas de harmonização facial. Conhecemos as objeções, a linguagem e o comportamento de compra da sua paciente, e garantimos anúncios sempre dentro das normas do CFM e CFO — sem risco de banimento ou multa.\n\nE o mais importante: nosso modelo de parceria é construído para que a gente só ganhe de verdade quando você ganhar."
+            }
+          />
+        </div>
       </div>
     </Slide>
   );
 }
 
+/* 5 — Método PATCE */
 function Slide5() {
-  const clients = [
+  const patce = [
     {
-      img: pedro,
-      name: "Pedro Moro",
-      handle: "@pedromoro93",
-      desc: "Funis de Tráfego Pago (Perpétuo e Lançamento) · Top 01 HotmartPRO",
+      l: "P",
+      title: "Posicionamento",
+      desc: "Como sua clínica é percebida no mercado e o que te diferencia da concorrência.",
+      icon: Compass,
     },
     {
-      img: felipe,
-      name: "Felipe Torres",
-      handle: "@ofelipetorresc",
-      desc: "Metodologia de vendas validada · +200 empresas atendidas",
+      l: "A",
+      title: "Autoridade",
+      desc: "Construção de confiança e reconhecimento como referência na sua região.",
+      icon: BadgeCheck,
+    },
+    {
+      l: "T",
+      title: "Tráfego",
+      desc: "Gestão de anúncios (Meta + Google) feita só pra harmonização facial.",
+      icon: Megaphone,
+    },
+    {
+      l: "C",
+      title: "Comercial",
+      desc: "Estruturação do atendimento e follow-up para transformar lead em paciente agendado.",
+      icon: Handshake,
+    },
+    {
+      l: "E",
+      title: "Escala",
+      desc: "Crescimento sustentável e previsível, mês após mês.",
+      icon: TrendingUp,
     },
   ];
   return (
-    <Slide index={5} total={TOTAL} bg="white">
+    <Slide index={5} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Prova social</Kicker>
+        <Kicker>Nosso método próprio</Kicker>
         <Editable
           id="s5-title"
           as="h2"
-          className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-          initial="Agências que confiaram no nosso trabalho"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="Método PATCE"
         />
       </div>
 
-      <div className="mt-10 flex-1 grid md:grid-cols-2 gap-8 items-center">
-        {clients.map((c, i) => (
-          <div
-            key={c.name}
-            className="rounded-2xl border border-border bg-white overflow-hidden shadow-[0_15px_40px_-20px_rgba(31,157,85,0.3)]"
-          >
-            <div className="bg-[linear-gradient(180deg,#F2FBF5,#FFFFFF)] p-2">
-              <img
-                src={c.img}
-                alt={c.name}
-                className="w-full h-auto block rounded-xl"
-              />
-            </div>
-            <div className="p-6">
+      <div className="mt-8 flex-1 grid grid-cols-5 gap-4">
+        {patce.map((p, i) => {
+          const Icon = p.icon;
+          return (
+            <div
+              key={p.l}
+              className="rounded-2xl border border-neutral-200 bg-white p-5 flex flex-col"
+            >
+              <div className="flex items-center justify-between">
+                <div
+                  className="text-5xl font-black leading-none"
+                  style={{ color: ORANGE }}
+                >
+                  {p.l}
+                </div>
+                <Icon
+                  className="h-6 w-6"
+                  style={{ color: ORANGE }}
+                  strokeWidth={2}
+                />
+              </div>
               <Editable
-                id={`s5-n-${i}`}
+                id={`s5-t-${i}`}
                 as="h3"
-                className="text-2xl font-bold tracking-tight"
-                initial={c.name}
-              />
-              <Editable
-                id={`s5-h-${i}`}
-                as="div"
-                className="text-sm font-medium text-primary mt-0.5"
-                initial={c.handle}
+                className="mt-4 text-xl font-bold tracking-tight text-neutral-900"
+                initial={p.title}
               />
               <Editable
                 id={`s5-d-${i}`}
                 as="p"
                 multiline
-                className="mt-2 text-sm text-muted-foreground leading-relaxed"
-                initial={c.desc}
+                className="mt-2 text-[13px] leading-relaxed text-neutral-600"
+                initial={p.desc}
               />
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      <Editable
+        id="s5-foot"
+        as="p"
+        multiline
+        className="mt-8 text-lg md:text-xl text-neutral-700 max-w-4xl font-light"
+        initial="Não é só tráfego. É um sistema completo, do primeiro clique até o paciente sentado na sua cadeira."
+      />
     </Slide>
   );
 }
 
+/* 6 — Como funciona a entrega */
 function Slide6() {
-  const blocks = [
-    {
-      icon: Trophy,
-      title: "Resultado",
-      items: [
-        "+20% a +40% de produtividade em até 90 dias",
-        "Mais margem sem aumentar equipe",
-        "Menos retrabalho e tarefas manuais",
-      ],
-    },
-    {
-      icon: ShieldCheck,
-      title: "Probabilidade de sucesso",
-      items: [
-        "Método em 3 fases validado (Diagnóstico, Implementação, Otimização)",
-        "Outras agências já automatizam sua operação conosco",
-        "Painel de Produtividade para acompanhar o “antes e depois”",
-      ],
-    },
-    {
-      icon: BarChart3,
-      title: "Tempo de espera",
-      items: [
-        "Projeto entregue em 90 dias",
-        "Cronograma claro no método PIPE (30-60-90)",
-      ],
-    },
-    {
-      icon: Users,
-      title: "Esforço e sacrifício do cliente",
-      items: [
-        "Implementação feita por nós",
-        "Time treinado e processos documentados",
-        "Sem precisar virar especialista em IA",
-      ],
-    },
+  const steps = [
+    { icon: KeyRound, title: "Coleta de acessos", desc: "Configuramos o acesso às suas contas de tráfego com segurança." },
+    { icon: ClipboardList, title: "Onboarding", desc: "Entendemos a fundo sua clínica, sua região e sua concorrência." },
+    { icon: Presentation, title: "Apresentação da estratégia", desc: "Te mostramos exatamente o plano antes de qualquer ação." },
+    { icon: PenLine, title: "Criação das copys", desc: "Escrevemos toda a comunicação da sua campanha." },
+    { icon: Clapperboard, title: "Artes e edição de vídeo", desc: "Produzimos o material visual completo." },
+    { icon: Rocket, title: "Subimos as campanhas", desc: "E sua clínica já está no ar." },
   ];
   return (
-    <Slide index={6} total={TOTAL} bg="soft">
+    <Slide index={6} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Por quê funciona</Kicker>
+        <Kicker>Como funciona a entrega</Kicker>
         <Editable
           id="s6-title"
           as="h2"
-          className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-          initial="Por que essa operação funciona?"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="Como funciona, na prática."
         />
       </div>
 
-      <div className="mt-8 flex-1 grid md:grid-cols-2 gap-5">
-        {blocks.map((b, i) => (
-          <div
-            key={b.title}
-            className="rounded-2xl bg-white border border-border p-6 shadow-[0_10px_30px_-15px_rgba(31,157,85,0.2)]"
-          >
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                <b.icon className="h-5 w-5" />
+      <div className="mt-8 flex-1 grid grid-cols-3 gap-x-6 gap-y-5">
+        {steps.map((s, i) => {
+          const Icon = s.icon;
+          return (
+            <div key={i} className="flex gap-4">
+              <div
+                className="text-4xl font-black leading-none tabular-nums shrink-0"
+                style={{ color: ORANGE }}
+              >
+                {String(i + 1).padStart(2, "0")}
               </div>
-              <Editable
-                id={`s6-t-${i}`}
-                as="h3"
-                className="text-xl font-bold tracking-tight"
-                initial={b.title}
-              />
-            </div>
-            <ul className="mt-4 space-y-2.5">
-              {b.items.map((it, j) => (
-                <li key={j} className="flex gap-2.5 text-[15px] leading-snug">
-                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <div className="flex-1 pt-1">
+                <div className="flex items-center gap-2">
+                  <Icon className="h-4 w-4" style={{ color: ORANGE }} />
                   <Editable
-                    id={`s6-i-${i}-${j}`}
-                    as="span"
-                    multiline
-                    className="text-foreground/85"
-                    initial={it}
+                    id={`s6-t-${i}`}
+                    as="h3"
+                    className="text-lg font-bold tracking-tight text-neutral-900"
+                    initial={s.title}
                   />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                </div>
+                <Editable
+                  id={`s6-d-${i}`}
+                  as="p"
+                  multiline
+                  className="mt-1 text-sm leading-relaxed text-neutral-600"
+                  initial={s.desc}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div
+        className="mt-8 rounded-xl px-6 py-4 flex items-center gap-4 text-white"
+        style={{ backgroundColor: ORANGE }}
+      >
+        <span className="text-xs font-bold uppercase tracking-[0.2em] opacity-80">
+          Prazo
+        </span>
+        <Editable
+          id="s6-prazo"
+          as="span"
+          className="text-lg md:text-xl font-semibold"
+          initial="Em até 15 dias, sua campanha está rodando."
+        />
       </div>
     </Slide>
   );
 }
 
+/* 7 — O que o mercado cobra */
 function Slide7() {
-  const e1 = [
-    "Mapeamento completo da operação",
-    "Identificação de gargalos e tarefas repetitivas",
-    "Levantamento de oportunidades com IA e automação",
-    "Criação do Playbook de Automação",
-    "Roadmap personalizado de implementação",
-  ];
-  const e2 = [
-    "Implementação das automações prioritárias",
-    "Integrações e fluxos operacionais",
-    "Ajustes e otimizações",
-    "Treinamento e documentação da equipe",
-  ];
   return (
-    <Slide index={7} total={TOTAL} bg="white">
+    <Slide index={7} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker>Investimento</Kicker>
+        <Kicker>Investimento · Mercado</Kicker>
         <Editable
           id="s7-title"
           as="h2"
-          className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-          initial="Investimento"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="O que o mercado cobra hoje."
+        />
+      </div>
+
+      <div className="mt-10 flex-1 grid md:grid-cols-[1fr_1.1fr] gap-12 items-center">
+        <div>
+          <div className="text-sm font-bold uppercase tracking-widest text-neutral-400">
+            Agências genéricas
+          </div>
+          <div className="mt-3 flex items-baseline gap-2">
+            <span className="text-neutral-400 text-2xl">A partir de</span>
+          </div>
+          <Editable
+            id="s7-price"
+            as="div"
+            className="mt-1 text-[120px] md:text-[160px] font-black leading-none tracking-tighter"
+            initial="R$ 2.500"
+          />
+          <div className="mt-2 text-lg text-neutral-500">
+            por mês · só de taxa de gestão
+          </div>
+
+          {/* comparison bar */}
+          <div className="mt-8">
+            <div className="h-3 w-full rounded-full bg-neutral-100 overflow-hidden">
+              <div
+                className="h-full"
+                style={{ backgroundColor: ORANGE, width: "100%" }}
+              />
+            </div>
+            <div className="mt-2 flex justify-between text-xs text-neutral-400 uppercase tracking-widest">
+              <span>Taxa fixa mensal</span>
+              <span>R$ 2.500</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <Editable
+            id="s7-body"
+            as="p"
+            multiline
+            className="text-xl md:text-2xl leading-relaxed text-neutral-700 font-light"
+            initial={
+              "Agências de tráfego genéricas, que atendem 50 nichos diferentes ao mesmo tempo, normalmente cobram a partir de R$ 2.500 por mês, só de taxa de gestão."
+            }
+          />
+          <div
+            className="mt-8 border-l-4 pl-6"
+            style={{ borderColor: ORANGE }}
+          >
+            <Editable
+              id="s7-note"
+              as="p"
+              multiline
+              className="text-lg md:text-xl leading-relaxed text-neutral-800 font-medium"
+              initial={
+                "E o que poucos clientes percebem: na maioria das vezes, essas agências investem mais dinheiro na própria taxa de gestão delas do que no tráfego que efetivamente traz pacientes pra sua clínica."
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </Slide>
+  );
+}
+
+/* 8 — Nosso investimento */
+function Slide8() {
+  return (
+    <Slide index={8} total={TOTAL}>
+      <div className="max-w-5xl">
+        <Kicker>Nosso investimento</Kicker>
+        <Editable
+          id="s8-title"
+          as="h2"
+          className="mt-5 text-5xl md:text-6xl font-black tracking-tight leading-[1.02]"
+          initial="Como trabalhamos com você."
         />
       </div>
 
       <div className="mt-8 flex-1 grid md:grid-cols-2 gap-6">
-        {/* Etapa 1 */}
-        <div className="rounded-2xl border border-border bg-white p-7 flex flex-col shadow-[0_10px_30px_-15px_rgba(31,157,85,0.25)]">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-            <Wallet className="h-4 w-4" /> Etapa 1
+        <div
+          className="rounded-3xl p-8 flex flex-col justify-between text-white"
+          style={{ backgroundColor: ORANGE }}
+        >
+          <div className="text-xs font-bold uppercase tracking-[0.24em] opacity-80">
+            Investimento fixo
           </div>
-          <Editable
-            id="s7-e1-title"
-            as="h3"
-            className="mt-2 text-2xl font-bold tracking-tight"
-            initial="Diagnóstico Estratégico"
-          />
-          <div className="mt-3 flex items-baseline gap-2">
+          <div>
             <Editable
-              id="s7-e1-price"
-              as="span"
-              className="text-5xl font-bold tracking-tight text-primary"
-              initial="R$ 997"
+              id="s8-fixo"
+              as="div"
+              className="text-[120px] md:text-[160px] font-black leading-none tracking-tighter"
+              initial="R$ 1.000"
             />
+            <div className="mt-2 text-lg opacity-90">
+              menos da metade do mercado
+            </div>
           </div>
-          <ul className="mt-5 space-y-2 flex-1">
-            {e1.map((it, j) => (
-              <li key={j} className="flex gap-2 text-[15px] leading-snug">
-                <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <Editable
-                  id={`s7-e1-${j}`}
-                  as="span"
-                  multiline
-                  className="text-foreground/85"
-                  initial={it}
-                />
-              </li>
-            ))}
-          </ul>
-          <div className="mt-5 pt-4 border-t border-border text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">Prazo: </span>
-            <Editable id="s7-e1-prazo" as="span" initial="30 dias" />
+          {/* bar */}
+          <div>
+            <div className="h-3 w-full rounded-full bg-white/25 overflow-hidden">
+              <div
+                className="h-full bg-white"
+                style={{ width: "40%" }}
+              />
+            </div>
+            <div className="mt-2 flex justify-between text-xs uppercase tracking-widest opacity-80">
+              <span>vs. R$ 2.500 do mercado</span>
+              <span>40%</span>
+            </div>
           </div>
         </div>
 
-        {/* Etapa 2 */}
-        <div className="rounded-2xl border-2 border-primary bg-[linear-gradient(180deg,#F2FBF5,#FFFFFF)] p-7 flex flex-col shadow-[0_20px_50px_-20px_rgba(31,157,85,0.4)]">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-            <Wallet className="h-4 w-4" /> Etapa 2
+        <div className="rounded-3xl border-2 border-neutral-900 p-8 flex flex-col justify-between bg-white">
+          <div className="text-xs font-bold uppercase tracking-[0.24em] text-neutral-500">
+            Comissão por venda
+          </div>
+          <div>
+            <Editable
+              id="s8-comissao"
+              as="div"
+              className="text-[120px] md:text-[160px] font-black leading-none tracking-tighter text-neutral-900"
+              initial="10%"
+            />
+            <div className="mt-2 text-lg text-neutral-500">
+              sobre cada venda gerada
+            </div>
           </div>
           <Editable
-            id="s7-e2-title"
-            as="h3"
-            className="mt-2 text-2xl font-bold tracking-tight"
-            initial="Implementação"
+            id="s8-body"
+            as="p"
+            multiline
+            className="text-[15px] leading-relaxed text-neutral-700"
+            initial={
+              "Não queremos ser mais uma agência com 200 clientes pequenos. Queremos 10 clientes bons, que faturam bem, e crescer junto. Quando sua clínica fatura mais, nós faturamos mais — a gente só fica rico se você também ficar."
+            }
           />
-          <div className="mt-3 flex items-baseline gap-2">
-            <Editable
-              id="s7-e2-price"
-              as="span"
-              className="text-5xl font-bold tracking-tight text-primary"
-              initial="R$ 3.000"
-            />
-          </div>
-          <ul className="mt-5 space-y-2 flex-1">
-            {e2.map((it, j) => (
-              <li key={j} className="flex gap-2 text-[15px] leading-snug">
-                <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <Editable
-                  id={`s7-e2-${j}`}
-                  as="span"
-                  multiline
-                  className="text-foreground/85"
-                  initial={it}
-                />
-              </li>
-            ))}
-          </ul>
-          <div className="mt-5 pt-4 border-t border-primary/30">
-            <div className="text-sm font-semibold text-foreground">
-              Forma de pagamento
-            </div>
-            <ul className="mt-2 space-y-1 text-sm text-foreground/85">
-              <li className="flex gap-2">
-                <span className="text-primary">•</span>
-                <Editable
-                  id="s7-pay-1"
-                  as="span"
-                  initial="R$ 1.500 no início da implementação"
-                />
-              </li>
-              <li className="flex gap-2">
-                <span className="text-primary">•</span>
-                <Editable
-                  id="s7-pay-2"
-                  as="span"
-                  initial="R$ 1.500 na entrega do projeto"
-                />
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </Slide>
   );
 }
 
-function Slide8() {
-  const items = [
-    "Pelo menos 3 processos críticos automatizados",
-    "Ganho mensurável de produtividade",
-    "Redução operacional em pelo menos uma área da empresa",
-  ];
+/* 9 — Fechamento */
+function Slide9() {
   return (
-    <Slide index={8} total={TOTAL} bg="dark">
+    <Slide index={9} total={TOTAL}>
       <div className="max-w-5xl">
-        <Kicker dark>Garantia</Kicker>
-        <Editable
-          id="s8-title"
-          as="h2"
-          className="mt-4 text-4xl md:text-6xl font-bold tracking-tight leading-tight"
-          initial="Garantia 90D Produtividade"
-        />
-        <Editable
-          id="s8-sub"
-          as="p"
-          multiline
-          className="mt-5 text-xl text-white/85 max-w-3xl"
-          initial="Nosso compromisso é com resultado operacional real."
-        />
+        <Kicker>Fechamento</Kicker>
       </div>
 
-      <div className="mt-8 flex-1 grid md:grid-cols-[1.1fr_1fr] gap-8 items-center">
-        <div className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur p-7">
-          <div className="text-sm font-semibold text-primary-glow uppercase tracking-widest">
-            Se ao final dos 90 dias sua operação não tiver:
-          </div>
-          <ul className="mt-5 space-y-3">
-            {items.map((it, j) => (
-              <li key={j} className="flex gap-3 text-lg leading-snug">
-                <Check className="h-6 w-6 text-primary-glow shrink-0 mt-0.5" />
-                <Editable
-                  id={`s8-i-${j}`}
-                  as="span"
-                  multiline
-                  className="text-white/90"
-                  initial={it}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="flex-1 flex flex-col justify-center max-w-5xl">
+        <Editable
+          id="s9-title"
+          as="h2"
+          className="text-6xl md:text-8xl font-black tracking-tight leading-[0.95]"
+          initial="Vamos começar?"
+        />
+        <div
+          className="mt-6 h-1 w-24 rounded-full"
+          style={{ backgroundColor: ORANGE }}
+        />
+        <Editable
+          id="s9-body"
+          as="p"
+          multiline
+          className="mt-8 text-2xl md:text-3xl leading-snug text-neutral-700 max-w-4xl font-light"
+          initial={
+            "Em 15 dias sua clínica pode estar com posicionamento, autoridade e tráfego rodando, com uma parceria que só faz sentido pra nós se fizer sentido pro seu faturamento também."
+          }
+        />
 
-        <div className="rounded-2xl bg-[linear-gradient(135deg,#1F9D55,#4FCB82)] p-8 text-white shadow-[0_25px_60px_-20px_rgba(79,203,130,0.5)]">
-          <ShieldCheck className="h-10 w-10" />
-          <Editable
-            id="s8-promise"
-            as="p"
-            multiline
-            className="mt-4 text-2xl font-semibold leading-snug"
-            initial="Nós continuamos trabalhando por mais 30 dias sem custo adicional de honorários do projeto."
-          />
+        <div className="mt-12">
+          <button
+            className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-white text-xl md:text-2xl font-bold shadow-[0_20px_50px_-15px_rgba(242,106,33,0.55)] hover:opacity-95 transition"
+            style={{ backgroundColor: ORANGE }}
+          >
+            <Editable
+              id="s9-cta"
+              as="span"
+              initial="Quero começar agora"
+            />
+            <ArrowRight className="h-6 w-6" />
+          </button>
         </div>
       </div>
     </Slide>
@@ -705,7 +709,17 @@ function Slide8() {
 
 /* --------------------------------- Shell --------------------------------- */
 
-const SLIDES = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6, Slide7, Slide8];
+const SLIDES = [
+  Slide1,
+  Slide2,
+  Slide3,
+  Slide4,
+  Slide5,
+  Slide6,
+  Slide7,
+  Slide8,
+  Slide9,
+];
 
 function Proposta() {
   const [i, setI] = useState(0);
@@ -742,7 +756,7 @@ function Proposta() {
     if (!confirm("Restaurar todos os textos originais da proposta?")) return;
     try {
       Object.keys(localStorage)
-        .filter((k) => k.startsWith("fym-proposta:"))
+        .filter((k) => k.startsWith(STORE))
         .forEach((k) => localStorage.removeItem(k));
     } catch {
       // ignore
@@ -753,41 +767,47 @@ function Proposta() {
   const Current = SLIDES[i];
 
   return (
-    <div className="min-h-screen bg-[#0B1410] text-foreground">
+    <div className="min-h-screen bg-neutral-100 text-neutral-900">
       {/* Toolbar */}
-      <div className="flex items-center justify-between gap-3 px-4 md:px-8 py-3 bg-white border-b border-border print:hidden">
+      <div className="flex items-center justify-between gap-3 px-4 md:px-8 py-3 bg-white border-b border-neutral-200 print:hidden">
         <div className="flex items-center gap-2">
-          <img src={fymLogo} alt="" className="h-6 w-auto" />
-          <span className="text-sm font-semibold">Proposta · FYM Group</span>
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: ORANGE }}
+          />
+          <span className="text-sm font-bold">
+            Proposta · Frota Performance
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => go(i - 1)}
-            className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-accent"
+            className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-neutral-200 hover:bg-neutral-50"
             aria-label="Anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <span className="text-xs tabular-nums text-muted-foreground min-w-[56px] text-center">
+          <span className="text-xs tabular-nums text-neutral-500 min-w-[56px] text-center">
             {i + 1} / {SLIDES.length}
           </span>
           <button
             onClick={() => go(i + 1)}
-            className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-accent"
+            className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-neutral-200 hover:bg-neutral-50"
             aria-label="Próximo"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
-          <div className="w-px h-6 bg-border mx-1" />
+          <div className="w-px h-6 bg-neutral-200 mx-1" />
           <button
             onClick={present}
-            className="h-9 px-3 inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90"
+            className="h-9 px-3 inline-flex items-center gap-2 rounded-md text-white text-sm font-medium hover:opacity-90"
+            style={{ backgroundColor: ORANGE }}
           >
             <Maximize2 className="h-4 w-4" /> Apresentar
           </button>
           <button
             onClick={resetAll}
-            className="h-9 px-3 inline-flex items-center gap-2 rounded-md border border-border text-sm hover:bg-accent"
+            className="h-9 px-3 inline-flex items-center gap-2 rounded-md border border-neutral-200 text-sm hover:bg-neutral-50"
           >
             <RotateCcw className="h-4 w-4" /> Restaurar
           </button>
@@ -797,11 +817,11 @@ function Proposta() {
       {/* Stage */}
       <div
         ref={containerRef}
-        className="w-full bg-[#0B1410] flex items-center justify-center p-4 md:p-8"
+        className="w-full bg-neutral-100 flex items-center justify-center p-4 md:p-8"
         style={{ minHeight: "calc(100vh - 57px)" }}
       >
         <div
-          className="w-full max-w-[1280px] aspect-[16/9] rounded-2xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5)] bg-white"
+          className="w-full max-w-[1280px] aspect-[16/9] rounded-2xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.15)] bg-white border border-neutral-200"
           style={{ maxHeight: "calc(100vh - 120px)" }}
         >
           <Current />
